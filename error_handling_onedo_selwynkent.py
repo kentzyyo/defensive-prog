@@ -1,6 +1,6 @@
 import math
 
-#selwyn kent onedo
+# selwyn kent onedo
 # Dictionary to store previous calculation results
 results = {}
 
