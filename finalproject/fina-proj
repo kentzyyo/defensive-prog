@@ -1,0 +1,17 @@
+import requests 
+
+api-key = ""
+
+city = input("Enter City Name: ")
+url = f""
+response = requests.get(url)
+
+if response.status_code == 200:
+    data = response.json()
+    temp = data['main']['temp']
+    desc = data['weather'][0]['description']
+    print(f'Temperature: {temp} K')
+    print(f'Descriptions: {desc}')
+else:
+    print('Error fetching weather data')
+    
