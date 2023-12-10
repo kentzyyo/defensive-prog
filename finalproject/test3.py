@@ -17,43 +17,53 @@ def getWeather():
         city=textfield.get()
         geolocator = Nominatim(user_agent="weather_app")
         location = geolocator.geocode(city)
-        obj = TimezoneFinder()
-        result = obj.timezone_at(lng=location.longitude, lat=location.latitude)
-
-        home=pytz.timezone(result)
-        local_time=datetime.now(home)
-        current_time=local_time.strftime("%I:%M:%p")
-        clock.config(text=current_time)
-        name.config(text="STANDARD TIME")
-
-        # Fetching current date
-        current_date = local_time.strftime("%A, %B %d, %Y")
-        date_label.config(text=current_date)
         
-        #weather
-        api_key="8138bf87612c86cbe7676267267eabc2"
-        api="http://api.openweathermap.org/data/2.5/weather?"
-        complete_url = f"{api}q={city}&appid={api_key}&units=metric"
 
-        json_data = requests.get(complete_url).json()
-        condition = json_data['weather'][0]['main']
-        description = json_data['weather'][0]['description']
-        temp = int(json_data['main']['temp'])
-        pressure = json_data['main']['pressure']
-        humidity = json_data['main']['humidity']
-        wind = json_data['wind']['speed']
+        if location:
+            full_location_name = location.address  # Full location name including country
+            print(f"{full_location_name}")
 
-        t.config(text=(temp,"°C"))
-        c.config(text=(condition,"|","FEELS","LIKE",temp,"°C"))
+            obj = TimezoneFinder()
+            result = obj.timezone_at(lng=location.longitude, lat=location.latitude)
 
-        w.config(text=wind)
-        h.config(text=humidity)
-        d.config(text=description)
-        p.config(text=pressure)
+            home=pytz.timezone(result)
+            local_time=datetime.now(home)
+            current_time=local_time.strftime("%I:%M:%p")
+            clock.config(text=current_time)
+            name.config(text="STANDARD TIME")
+
+            # Fetching current date
+            current_date = local_time.strftime("%A, %B %d, %Y")
+            date_label.config(text=current_date)
+            
+            #weather
+            api_key="8138bf87612c86cbe7676267267eabc2"
+            api="http://api.openweathermap.org/data/2.5/weather?"
+            complete_url = f"{api}q={city}&appid={api_key}&units=metric"
+
+            json_data = requests.get(complete_url).json()
+            condition = json_data['weather'][0]['main']
+            description = json_data['weather'][0]['description']
+            temp = int(json_data['main']['temp'])
+            pressure = json_data['main']['pressure']
+            humidity = json_data['main']['humidity']
+            wind = json_data['wind']['speed']
+
+            t.config(text=(temp,"°C"))
+            c.config(text=(condition,"|","FEELS","LIKE",temp,"°C"))
+
+            w.config(text=wind)
+            h.config(text=humidity)
+            d.config(text=description)
+            p.config(text=pressure)
+
+            location_label.config(text=f"Location: {full_location_name}")  # Display full location including country
+
+        else:
+            messagebox.showerror("Error", "Location not found")
+
     except Exception as e:
-        messagebox.showerror("Weather App. Invalid Entry!")
-
-
+        messagebox.showerror("Invalid!")
 
 #search box
 Search_image=PhotoImage(file="finalproject\search.png")
@@ -68,10 +78,14 @@ Search_icon=PhotoImage(file="finalproject\search_icon.png")
 myimage_icon=Button(image=Search_icon, borderwidth=0, cursor="hand2", bg="#404040", command=getWeather)
 myimage_icon.place(x=400, y=34)
 
+# location_image=PhotoImage(file="finalproject\location.png")
+# location_img=Label(image=location_image)
+# location_img.place(x=40,y=34)
+
 #logo
-Logo_image=PhotoImage(file="finalproject\logo.png")
+Logo_image=PhotoImage(file="finalproject\weatherIOS2.png")
 logo=Label(image=Logo_image)
-logo.place(x=150,y=100)
+logo.place(x=550,y=100)
 
 #Bottom box
 Frame_image=PhotoImage(file="finalproject\lox.png")
@@ -86,6 +100,9 @@ clock.place(x=30, y=130)
 date_label= Label(root, font=("Helvetica", 15))
 date_label.place(x=30, y=160)  # Adjust the coordinates as needed
 
+#place
+location_label = Label(root, font=("Helvetica", 15))
+location_label.place(x=30, y=190)  # Adjust the coordinates as needed
 
 #label
 label1=Label(root, text="WIND", font=("Helvetica", 15, 'bold'), fg="white", bg="#1ab5ef")
@@ -101,10 +118,10 @@ label4=Label(root, text="PRESSURE", font=("Helvetica", 15, 'bold'), fg="white", 
 label4.place(x=650, y=400)
 
 t=Label(font=("arial", 70, 'bold'),fg="#ee666d")
-t.place(x=400, y=150)
+t.place(x=100, y=220)
 
 c=Label(font=("arial", 15, 'bold'))
-c.place(x=400, y=250)
+c.place(x=100, y=335)
 
 w=Label(text="...", font=("arial", 20, 'bold'), bg="#1ab5ef")
 w.place(x=120, y=430)
