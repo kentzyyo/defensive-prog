@@ -1,0 +1,87 @@
+import requests 
+import geopy
+from geopy.geocoders import Nominatim
+
+def get_weather(city):
+    api_key = "8138bf87612c86cbe7676267267eabc2" 
+    base_url = "http://api.openweathermap.org/data/2.5/weather?"
+    complete_url = f"{base_url}q={city}&appid={api_key}&units=metric"
+
+    response = requests.get(complete_url)
+    data =response.json()
+
+    if data["cod"] != "404":
+        city_name = data["name"]
+        weather_desc = data["weather"][0]["description"]
+        temperature = data["main"]["temp"]
+        humidity = data["main"]["humidity"]
+        wind_speed = data["wind"]["speed"]
+
+        print(f"Weather in {city_name}: {weather_desc}")
+        print(f"Temperature: {temperature}°C")
+        print(f"Humidity: {humidity}%")
+        print(f"Wind Speed: {wind_speed} m/s")
+
+    else:
+        print("City not found. Please enter a valid city name.")
+
+def get_location_autocomplete(query):
+    geolocator = Nominatim(user_agent="weather_app")
+    location = geolocator.geocode(query)
+    if location:
+        print(f"Location: {location.address}")
+        print(f"Latitude: {location.latitude}, Longitude: {location.longitude}")
+    else:
+        print("Location not found. Please enter a valid location.")
+
+def get_weather_forecast(city, days=5):
+    api_key = "8138bf87612c86cbe7676267267eabc2"
+    base_url = "http://api.openweathermap.org/data/2.5/forecast?"
+    complete_url = f"{base_url}q={city}&cnt={days}&appid={api_key}&units=metric"
+
+    response = requests.get(complete_url)
+    data = response.json()
+
+    if data["cod"] != "404":
+        city_name = data["city"]["name"]
+        print(f"Weather Forecast for {city_name} for the next {days} days")
+        for forecast in data["list"]:
+            date = forecast["dt_txt"]
+            weather_desc = forecast["weather"][0]["description"]
+            temperature = forecast["main"]["temp"]
+            print(f"Date: {date}, Weather: {weather_desc}, Temperature: {temperature}°C")
+
+    else:
+        print("City not found. Please enter a valid city name.")
+
+# def convert_temperature(temp, from_unit='Celsius', to_unit='Fahrenheit'):
+#     if from_unit == 'Celsius' and to_unit == 'Fahrenheit':
+#         return (temp * 9/5) + 32
+#     elif from_unit == 'Fahrenheit' and to_unit == 'Celsius':
+#         return (temp - 32) * 5/9
+#     elif from_unit == 'Celsius' and to_unit == 'Kelvin':
+#         return temp + 273.15
+#     elif from_unit == 'Kelvin' and to_unit == 'Celsius':
+#         return temp - 273.15
+#     else:
+#         return temp
+
+if __name__ == "__main__":
+    city_input = input("Enter city name: ")
+    get_weather(city_input)
+
+    choice = input("Do you want to see the weather forecast for the next few days? (yes/no): ")
+    if choice.lower() == "yes":
+        days_input = int(input("Enter the number of days for forecast: "))
+        get_weather_forecast(city_input, days_input)
+    
+    choice = input("Do you want to see location details? (yes/no): ")
+    if choice.lower() == 'yes':
+        location_input = input("Enter location for details: ")
+        get_location_autocomplete(location_input)
+    
+    # temp = float(input("Enter temperature: "))
+    # from_unit = input("Enter the current temperature unit (Celsius/Fahrenheit/Kelvin): ")
+    # to_unit = input("Enter unit to convert to (Celsius/Fahrenheit/Kelvin): ")
+    # converted_temp = convert_temperature(temp, from_unit, to_unit)
+    # print(f"Converted temperature: {converted_temp} {to_unit}")
