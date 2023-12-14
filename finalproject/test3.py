@@ -1,12 +1,13 @@
 #import the necessary libraries
-from tkinter import *
-import tkinter as tk
-from geopy.geocoders import Nominatim
-from tkinter import ttk, messagebox
-from timezonefinder import TimezoneFinder
-from datetime import datetime
-import requests
-import pytz
+
+from tkinter import * # for GUI library for Python
+import tkinter as tk # used for GUI elements and displaying messages
+from geopy.geocoders import Nominatim # used to fetch location details based on user-provided city name
+from tkinter import ttk, messagebox # used for GUI elements and displaying messages 
+from timezonefinder import TimezoneFinder #used in finding timezones based on coordinates
+from datetime import datetime # for working with date and time in Python
+import requests # to send HTTP requests for fetching weather data from the OpenWeatherMap API
+import pytz # provides timezone information
 
 # Create the main window
 root=Tk()
@@ -45,7 +46,7 @@ def getWeather():
             date_label.config(text=current_date)
             
             # Fetch weather data using OpenWeatherMap API
-            api_key="8138bf87612c86cbe7676267267eabc2" # Our OpenWeatherMap API
+            api_key="8138bf87612c86cbe7676267267eabc2" # Generated OpenWeatherMap API
             api="http://api.openweathermap.org/data/2.5/weather?"
             complete_url = f"{api}q={city}&appid={api_key}&units=metric"
 
@@ -108,7 +109,7 @@ date_label.place(x=30, y=160)  # Adjust the coordinates as needed
 location_label = Label(root, font=("Helvetica", 15))
 location_label.place(x=30, y=190)  # Adjust the coordinates as needed
 
-#label
+#label - starts the main event loop to display the window and handle user interactions
 label1=Label(root, text="WIND", font=("Helvetica", 15, 'bold'), fg="white", bg="#1ab5ef")
 label1.place(x=120, y=400)
 
@@ -136,4 +137,4 @@ d.place(x=430, y=430)
 p=Label(text="", font=("arial", 20, 'bold'), bg="#1ab5ef")
 p.place(x=670, y=430)
 
-root.mainloop()
+root.mainloop() # starts the main event loop to display the window and handle user interactions.
