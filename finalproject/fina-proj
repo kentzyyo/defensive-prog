@@ -1,4 +1,6 @@
-import requests
+#original source: https://medium.com/@rekalantar/how-to-build-a-simple-weather-app-in-python-with-openweathermap-api-447a2dd27898
+#author: Reza Kalantar
+import requests 
 
 api_key = '8138bf87612c86cbe7676267267eabc2'
 
