@@ -1,14 +1,17 @@
-from tkinter import *
-import tkinter as tk
-from geopy.geocoders import Nominatim
-from tkinter import ttk, messagebox
-from timezonefinder import TimezoneFinder
-from datetime import datetime
-import requests
-import pytz
+#import the necessary libraries
 
+from tkinter import * # for GUI library for Python
+import tkinter as tk # used for GUI elements and displaying messages
+from geopy.geocoders import Nominatim # used to fetch location details based on user-provided city name
+from tkinter import ttk, messagebox # used for GUI elements and displaying messages 
+from timezonefinder import TimezoneFinder #used in finding timezones based on coordinates
+from datetime import datetime # for working with date and time in Python
+import requests # to send HTTP requests for fetching weather data from the OpenWeatherMap API
+import pytz # provides timezone information
+
+# Create the main window
 root=Tk()
-root.title=("Group 5-Weather App")
+root.title=("Weather App")
 root.geometry("900x500+300+200")
 root.resizable(False, False)
 
